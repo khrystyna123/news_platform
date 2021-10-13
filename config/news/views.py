@@ -6,6 +6,8 @@ from rest_framework.generics import DestroyAPIView
 from rest_framework.generics import UpdateAPIView
 from news.serializers import CommentSerializer, PostSerializer
 from news.models import Comment, Post
+from celery.schedules import crontab
+from celery.task import periodic_task
 
 
 # # Create your views here.
@@ -62,3 +64,9 @@ class DeleteCommentAPIView(DestroyAPIView):
     queryset = Comment.objects.all()
     serializer_class = CommentSerializer
 
+@periodic_task(run_every=crontab(minute=0, hour=0))
+def reset_upvotes():
+    posts = Post.objects.all()
+    for post in posts:
+        post.upvotes = 0
+        post.save()
