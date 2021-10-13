@@ -17,3 +17,7 @@ docker run news_platform_web
 ## Link to Postman Collection
 
 https://www.getpostman.com/collections/9b6181c4db770965650f
+
+## Deployment Link
+
+https://news-platform-001.herokuapp.com/api/v1/news/
